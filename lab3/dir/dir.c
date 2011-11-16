@@ -1,0 +1,146 @@
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <unistd.h>
+#include <getopt.h>
+
+int main(int argc, char *argv[])
+{
+	int help, size;
+	help = 0;
+	size = 0;
+	int opt;
+	char *optstring = "hl";
+	
+	for(opt = getopt(argc, argv, optstring); opt != -1; opt = getopt(argc, argv, optstring)){
+		switch(opt){
+		  case 'l':
+			size =1;
+			break;
+		  case 'h':
+			help = 1;
+			break;
+
+		  default:
+			printf("unknown option. Exiting...\n",opt);
+			return 0;
+		}
+	}
+	
+	char *dirname;
+
+	if (argc-optind == 1){
+		dirname = argv[optind];
+		
+	}
+	else if(argc-optind == 0){
+		dirname = ".";
+	}
+	else{
+		printf("USAGE: %s [OPTIONS] [directory] \n",argv[0]);
+		return 1;
+	}
+	
+	if(help ==1){
+		printf("USAGE: [OPTIONS] file differences\n",argv[0]);
+		printf("OPTIONS\n");
+		printf("-h  print a summary of options and exit\n");
+		printf("-l   print file size in bytes before the file name.\n");
+		return 0;
+	}
+	
+	DIR *wd = opendir(dirname);
+	struct dirent *current_dir;
+	
+
+	while (current_dir = readdir(wd)){
+		//printf("debug: d_name: %s\n",current_dir->d_name);
+		//printf("debug: d_type: %u\n",current_dir->d_type);
+		struct stat sb;
+	      	if (stat(dirname, &sb) == -1) {
+		    perror("stat");
+		    exit(EXIT_FAILURE);
+		}
+		//printf("mode: %d, %d\n",(int)sb.st_mode,S_IFMT);
+		if(current_dir->d_type == 10){
+			if (size == 1)
+				printf("%lld bytes  ",(long long)sb.st_size);
+			printf("%s\n",current_dir->d_name);
+			
+		}
+		/*
+	      switch (sb.st_mode & S_IFMT) {
+			case S_IFBLK:  printf("block device\n");            break;
+			case S_IFCHR:  printf("character device\n");        break;
+			case S_IFDIR:  printf("directory\n");               break;
+			case S_IFIFO:  printf("FIFO/pipe\n");               break;
+			case S_IFLNK:  printf("symlink\n");                 break;
+			case S_IFREG: //regular file 
+			      printf("%lld bytes    %s\n",(long long) sb.st_size,current_dir->d_name);
+			  break;
+			case S_IFSOCK: printf("socket\n");                  break;
+			default:       printf("unknown?\n");                break;
+			} 
+			*/
+	}
+	//for(;current_dir != NULL ;current_dir = readdir(wd)){
+//off_t
+//	} ino_t 
+
+	printf("debug: d_name: %s\n",current_dir->d_name);
+	//printf("debug: d_ino: %s\n",current_dir->d_ino);
+	//printf("debug: d_off: %s\n",current_dir->d_name);
+	
+	closedir(wd);
+  /*
+    struct stat sb;
+
+    if (argc != 2) {
+	fprintf(stderr, "Usage: %s <pathname>\n", argv[0]);
+	exit(EXIT_FAILURE);
+    }
+
+    if (stat(argv[1], &sb) == -1) {
+	perror("stat");
+	exit(EXIT_FAILURE);
+    }
+
+    printf("File type:                ");
+
+    switch (sb.st_mode & S_IFMT) {
+    case S_IFBLK:  printf("block device\n");            break;
+    case S_IFCHR:  printf("character device\n");        break;
+    case S_IFDIR:  printf("directory\n");               break;
+    case S_IFIFO:  printf("FIFO/pipe\n");               break;
+    case S_IFLNK:  printf("symlink\n");                 break;
+    case S_IFREG:  printf("regular file\n");            break;
+    case S_IFSOCK: printf("socket\n");                  break;
+    default:       printf("unknown?\n");                break;
+    }
+
+    printf("I-node number:            %ld\n", (long) sb.st_ino);
+
+    printf("Mode:                     %lo (octal)\n",
+	    (unsigned long) sb.st_mode);
+
+    printf("Link count:               %ld\n", (long) sb.st_nlink);
+    printf("Ownership:                UID=%ld   GID=%ld\n",
+	    (long) sb.st_uid, (long) sb.st_gid);
+
+    printf("Preferred I/O block size: %ld bytes\n",
+	    (long) sb.st_blksize);
+    printf("File size:                %lld bytes\n",
+	    (long long) sb.st_size);
+    printf("Blocks allocated:         %lld\n",
+	    (long long) sb.st_blocks);
+
+    printf("Last status change:       %s", ctime(&sb.st_ctime));
+    printf("Last file access:         %s", ctime(&sb.st_atime));
+    printf("Last file modification:   %s", ctime(&sb.st_mtime));
+*/
+    exit(EXIT_SUCCESS);
+}
