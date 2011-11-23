@@ -1,0 +1,38 @@
+/*
+ * this function getting a string and return the number it represent
+ * 
+ */
+#include <stdio.h>
+
+int strSize(char* str){
+  int size = 0;
+  while(str[size] != '\0' ) 
+    size++;
+  return size;
+}
+
+int atod(char *str) {
+	
+	//if (argc != 1){
+	//  fprintf(stderr,"need 1 parameter");
+	//}
+	
+	//char* str = argv[1];
+	int b = 1;
+	int i = 0;
+	int ans = 0;
+	int len;
+	int dig_value;
+	
+	len = strSize(str);
+	printf("len: %d", len);
+	fflush(stdout);
+	/*
+	for (i = len-1; i>=0; i--){
+	  dig_value = str[i] - '0';
+	  ans = ans + dig_value * b;
+	  b = b*10;
+	}
+	*/
+	return ans;
+}
