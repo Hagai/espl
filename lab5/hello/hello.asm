@@ -5,7 +5,7 @@ section	.text
 _start:					;tell linker entry point
 	;; TODO: add call to function `length' here
 	;; (you'll need 3 assembly instructions)
-	mov	ebx,msg			; prepare args for function call	
+	push	msg			; prepare args for function call	
 	call	length			; call the function
 	mov	edx,eax			; move the var to the right register
 
