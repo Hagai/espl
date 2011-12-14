@@ -31,8 +31,9 @@ int main(int argc, char *argv[]){
 		endOfFile1 = fread((char *)&f1, sizeof(char), 1, fileStream1);
 		endOfFile2 = fread((char *)&f2, sizeof(char), 1, fileStream2);
 
-		if (endOfFile1 - endOfFile1 != 0){
+		if ((endOfFile2 == 0) | (endOfFile1 == 0)){
 			//printf("debug: end of file\n");
+			break;
 		}
 		if (f1 != f2){
 			printf("byte %d -%u +%u\n",byteNum, f1, f2);

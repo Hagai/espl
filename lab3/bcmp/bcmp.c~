@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
 			//printf("debug: end of file\n");
 		}
 		if (f1 != f2){
-			printf("byte %d %u %u\n",byteNum, f1, f2);
+			printf("byte %d -%u +%u\n",byteNum, f1, f2);
 			diff = 1;
 		}
 		//printf("debug: byte %d in file1 is %d & in file2 is %d\n",byteNum, f1, f2);
