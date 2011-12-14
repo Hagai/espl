@@ -1,0 +1,15 @@
+void ahalan();
+
+void sys_puts();
+
+void myPuts(char* str){
+  sys_puts(str);
+  
+}
+
+
+int main(int arg, char **argv) {
+  myPuts(argv[1]);
+  ahalan();
+	return 0;
+}
