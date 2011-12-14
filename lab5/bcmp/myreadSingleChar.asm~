@@ -1,0 +1,15 @@
+section	.text
+	global myreadSingleChar
+
+myreadSingleChar:					;void myreadSingleChar(fd, buf)
+	push ebp
+	mov ebp, esp
+
+	mov	ebx,[esp + 8]	;file descriptor
+	mov	ecx,[esp + 12]	;buf
+	mov word edx,1		;size to read
+	int	0x80		;call kernel
+
+	pop ebp
+	ret
+

@@ -1,0 +1,16 @@
+section	.text
+	global open
+
+open:					;void open()
+	push ebp
+	mov ebp, esp
+
+	mov	edx,0			; move the var to the right register
+	
+	add esp,4	;to guard stack (BETTER THEN POP)
+	
+	mov  	ebx,[esp + 8]	;file handler
+	mov	eax,6	;system call number (sys_close)
+	int	0x80	;call kernel
+	pop ebp
+	ret
