@@ -7,12 +7,13 @@ mystrlen:					;int mystrlen(char *str)
 	
 	
 	xor     eax, eax	;a = 0 will be use for loop
+	mov	edx,[ebp+8]
 	jmp	.Loo
 .ForEach:
 	add	eax,1
-	add     DWORD [ebp+8], 1
+	add     DWORD edx, 1
 .Loo:
-	mov     ecx,[ebp+8]	;get arg
+	mov     ecx,edx	;get arg
 	mov	ecx,[ecx]	;get the char c into c
 	movzx	ecx,cl
 	sub	ecx,0		;if eax = 0

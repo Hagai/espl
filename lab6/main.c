@@ -39,7 +39,9 @@ void print_letter(char c, int iline);
 }
 */
 
-void print_word(char *word, int iline){
+void print_word(char *word, int iline);
+/*
+ * {
 	//printf("DEBUG: im in print_word/n");
 	int len =  mystrlen(word);
 	//printf("first word is in length: %d\n",len);
@@ -50,9 +52,12 @@ void print_word(char *word, int iline){
 	  
 	}
 }
+*/
+
+
 
 //print line i
-extern void prsym(int idx, int iline) { 
+void prsym(int idx, int iline) { 
 	//int iline;
 	
 	char *(*symbol)[SYMBOL_HEIGHT] = &alphabet[idx];
