@@ -20,7 +20,7 @@ sys_putsl.o: sys_putsl.asm
 print_letter.o:print_letter.asm
 print_word.o:print_word.asm
 char2int.o:char2int.asm
-length.o:length.c
+#length.o:length.c
 font.o: font.c
 font.c:font.h
 main.o: main.c

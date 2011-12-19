@@ -1,11 +1,8 @@
-#include <stdlib.h>
-#include <stdio.h>
+
 #include "font.h"
 
 void sys_puts(char*);
-
 void sys_putsl(char*);
-
 int char2int(char c);
 /*
 int char2int(char c){
@@ -54,16 +51,16 @@ void print_word(char *word, int iline);
 }
 */
 
-
-
 //print line i
 void prsym(int idx, int iline) { 
 	//int iline;
 	
-	char *(*symbol)[SYMBOL_HEIGHT] = &alphabet[idx];
+	//char *(*symbol)[SYMBOL_HEIGHT] = &alphabet[idx];
 	//for(iline = 0; iline!=SYMBOL_HEIGHT; ++iline)  //for every line
 		////printf("%s", (*symbol)[iline]);
-	sys_puts((*symbol)[iline]);
+	//sys_puts((*symbol)[iline]);
+	
+	sys_puts(alphabet[idx][iline]);
 }
 
 
