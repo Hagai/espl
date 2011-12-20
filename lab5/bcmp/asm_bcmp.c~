@@ -63,8 +63,10 @@ int asm_bcmp(int argc, char *argv[]){
 			//*(msg+4) = byteNum + diff_abc;
 			//sys_puts(msg+4);
 			msg = " -";
+			sys_puts(msg);
 			sys_puts(buf1);
 			msg = " +";	
+			sys_puts(msg);
 			sys_puts(buf2);
 			sys_puts(nl);
 			//printf("byte %d -%u +%u\n",byteNum, f1, f2);
