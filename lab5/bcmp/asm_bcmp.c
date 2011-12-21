@@ -1,12 +1,3 @@
-//#include <stdio.h>
-
-/* 
- * fuction to implement:
- * fopen
- * fread
- * fclose
- * printf
- */
 
 unsigned int myopen(char*);
 int myreadSingleChar(unsigned int, char[]);
