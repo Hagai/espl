@@ -1,5 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
+
 #include "font.h"
 
 void sys_puts(char*);

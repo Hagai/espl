@@ -1,0 +1,23 @@
+section	.text
+	global sys_putcI
+
+
+sys_putcI:					;void sys_putc(char c)
+	push ebp
+	mov ebp, esp
+	
+	mov 	ecx,[ebp+8]
+	push  	ecx	;prepare single char
+	add DWORD [esp],32
+	mov	ecx,esp	;
+	mov	edx,1	;move the var to the right register (length)
+	mov	ebx,1	;file descriptor (stdout)
+	mov	eax,4	;system call number (sys_write)
+	int	0x80	;call kernel
+
+	pop ecx
+	;add	esp,4	;return stack
+
+	pop ebp
+	ret
+

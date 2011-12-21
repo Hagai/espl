@@ -52,7 +52,9 @@ void print_word(char *word, int iline);
 */
 
 //print line i
-void prsym(int idx, int iline) { 
+void prsym(int idx, int iline);
+/*
+ { 
 	//int iline;
 	
 	//char *(*symbol)[SYMBOL_HEIGHT] = &alphabet[idx];
@@ -62,7 +64,7 @@ void prsym(int idx, int iline) {
 	
 	sys_puts(alphabet[idx][iline]);
 }
-
+*/
 
 int main(int argc, char **argv) {
 	int i;
