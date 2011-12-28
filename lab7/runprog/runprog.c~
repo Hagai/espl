@@ -1,0 +1,53 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+
+#include <string.h>
+
+#include <sys/types.h> 
+#include <sys/wait.h>
+
+#include <unistd.h> 
+
+//Much thanks to http://www.makelinux.net/alp/024
+
+int main(int argc, char *argv[]){
+  
+ char* program = argv[1];
+ char* arg_list = ++argv;
+ 
+ printf ("running %s",program);
+
+ int i;
+ int status;
+ for (i = 1;i<argc-1;i++){
+  printf(" %s",argv[i]);
+ }
+ printf("\n");
+ 
+  
+ 
+ 
+ pid_t child_pid; 
+   
+  /* Duplicate this process. */ 
+  child_pid = fork (); 
+  
+  if (child_pid != 0) {
+    /* This is the parent process. */ 
+    printf ("parent:%u\n",child_pid); 
+    wait(&status);
+    //WEXITSTATUS(&stat);
+    printf ("exit status: %u",status);
+    return status; 
+    
+  }
+  else {
+    printf ("child:%u\n",child_pid); 
+    /* Now execute PROGRAM, searching for it in the path.  */ 
+    execvp (program,  arg_list); 
+    /* The execvp  function returns only if an error occurs.  */ 
+    fprintf (stderr,  "an error occurred in execvp\n"); 
+    abort (); 
+  } 
+  
+}
