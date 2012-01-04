@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
  char* program = argv[1];
  char* arg_list = ++argv;
  
- printf ("running %s",program);
+ printf ("%s",program);
 
  int i;
  int status;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]){
     /* This is the parent process. */ 
     printf ("parent:%u\n",child_pid); 
     wait(&status);
-    //WEXITSTATUS(&stat);
+    WEXITSTATUS(&status);
     printf ("exit status: %u\n",status);
     return status; 
     

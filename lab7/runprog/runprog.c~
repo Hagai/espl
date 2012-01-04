@@ -36,8 +36,8 @@ int main(int argc, char *argv[]){
     /* This is the parent process. */ 
     printf ("parent:%u\n",child_pid); 
     wait(&status);
-    //WEXITSTATUS(&stat);
-    printf ("exit status: %u",status);
+    WEXITSTATUS(&status);
+    printf ("exit status: %u\n",status);
     return status; 
     
   }
