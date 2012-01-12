@@ -8,7 +8,7 @@ CFLAGS=-g -O -Wall
 %: %.o
 	gcc $(CFLAGS) -o $@ $<
 
-all: esplsh
+all: clean esplsh
 
 esplsh: esplsh.o
 
@@ -16,4 +16,4 @@ clean:
 	rm -f *.o
 
 distclean: clean
-	rm -f esplsh *~
+	rm -f esplsh *~ *.o

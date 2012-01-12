@@ -4,6 +4,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <fcntl.h>
 
@@ -94,10 +95,13 @@ void free_args() {
 
 /* run an external program */
 void run_program() {
-  int pid, status;
+  int pid1, pid2, status, p_status;
   static char ststr[8];
   int arrow_flag = 0;
+  int pipe_pos;
+  int p[2];
   int fd;
+
   
   
   /* TODO: input, output redirection */
@@ -108,43 +112,106 @@ void run_program() {
   printf("DEBUG: last two argv are: %s, %s\n",argv[argc-2],argv[argc-1] );
   
   // check for arrow: left arrow is 2 and right arrow is 1
-  if(argc > 3){
+
+//
+
+/*
+find "|"
+send argv to two childs
+create pipe
+second fork
+close pipes
+*/
+
+  if(argc >= 3){
    if(!strcmp(argv[argc-2], ">")){
      printf("DEBUG:  right arrow\n");
        arrow_flag = 1;
-       fd = open( argv[argc-1], O_WRONLY, S_IRUSR|S_IWUSR);
+       fd = open( argv[argc-1], O_CREAT|O_WRONLY|O_TRUNC, S_IRUSR|S_IWUSR);
        printf("DEBUG: file name is %s and fd is %d\n",argv[argc-1], fd);
-       dup2(fd,1);
+       //dup2(fd,1);
        argv[argc-2] = '\0';
-    }
-    
+    }    
     else if(!strcmp(argv[argc-2], "<")){
       printf("DEBUG:  left arrow\n");
-       arrow_flag = 2;
-       fd = open(argv[argc-1], 64,S_IRUSR);
-       argv[argc-2] = '\0';
+      arrow_flag = 2;
+      fd = open(argv[argc-1], O_RDONLY, S_IRWXU);
+      printf("DEBUG: file name is %s and fd is %d\n",argv[argc-1], fd);
+      argv[argc-2] = '\0';
+    } else {
+	for (pipe_pos=1; pipe_pos<argc; pipe_pos++){
+		if(!strcmp(argv[pipe_pos], "|")){
+			printf("DEBUG:  Pipe found\n");
+			printf("DEBUG: pipe pos is %d\n",pipe_pos);
+			      arrow_flag = 3;
+			      //fd = open(argv[argc-1], O_RDONLY, S_IRWXU);
+			      //printf("DEBUG: file name is %s and fd is %d\n",argv[argc-1], fd);
+			      argv[pipe_pos] = '\0';
+			 break;
+		}
+	}
     }
-    
-    
   }
-  if((pid=fork())>0) {
-    waitpid(pid, &status, 0);
+
+ //create pipe
+if(arrow_flag == 3){
+  p_status = pipe(p);
+  if (p_status == -1)
+ {
+    perror("pipe call error");
+    exit(1);
+  }
+}
+
+  if((pid1=fork())>0) {
+    // PARENT
+
+    //if found pipe then ford for the second time.
+    if(arrow_flag == 3){
+	printf("DEBUG: doinf second fork\n");
+	if((pid2=fork())>0) {
+		// PARENT
+			
+
+	} else if(pid2==0) {
+		printf("DEBUG: Im the second child!!\n");
+		// CHILD 2
+	    char **argv2;
+	    //argv2 = argv + pipe_pos +2;
+	    argv2 = &(argv[pipe_pos + 1]);
+	    printf("DEBUG: command for second child is %s\n",argv2[0]);
+	    printf("DEBUG: pipe pos is %d\n",pipe_pos);
+	    execvp(argv2[0], argv2);
+	    perror(argv2[0]);
+	}
+	
+	  } else {
+	    perror(getenv("SHELL")); /* problem while forking child2, not due to a particular program */
+    }// arrow == 3
+
+    waitpid(pid2, &status, 0);
     sprintf(ststr, "%d", status);
     setenv("?", ststr, 1);
-  } else if(pid==0) {
     
+  } else if(pid1==0) {
+    // CHILD 1
     if(arrow_flag == 1)
     {
      dup2(fd,1); 
     }
-      
+    else if (arrow_flag == 2)
+    {
+     dup2(fd,0); 
+    }
+    //printf("DEBUG1: running command: %s", argv);
     execvp(argv[0], argv);
     perror(argv[0]);
   } else {
     perror(getenv("SHELL")); /* problem while forking, not due to a particular program */
   }
-  
-  if (arrow_flag > 0){
+  printf("DEBUG: my pid1 is %d. now Im checking arrow flag\n",pid1);
+  if (arrow_flag > 0 && arrow_flag < 3){
+    printf("DEBUG: closing file descriptor number %d\n", fd);
    close(fd);
   }
 }
