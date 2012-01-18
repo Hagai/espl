@@ -165,7 +165,6 @@ if(arrow_flag == 3){
 
   if((pid1=fork())>0) {
     // PARENT
-
     //if found pipe then ford for the second time.
     if(arrow_flag == 3){
 	printf("DEBUG: doinf second fork\n");
@@ -191,8 +190,7 @@ if(arrow_flag == 3){
 
     waitpid(pid2, &status, 0);
     sprintf(ststr, "%d", status);
-    setenv("?", ststr, 1);
-    
+    setenv("?", ststr, 1);  
   } else if(pid1==0) {
     // CHILD 1
     if(arrow_flag == 1)
