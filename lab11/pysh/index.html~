@@ -1,0 +1,34 @@
+
+<html xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta content="text/plain; charset=windows-1255">
+
+<title> I'm a tiltle! </title>
+
+</head>
+
+<body bgcolor=white lang=EN-US link=white vlink=silver style='tab-interval:
+36.0pt' alink="#0000FF" id=bodytag scroll=no>
+
+<h1>I'm an important heading</h1>
+
+
+<h2>I'm  a slightly less important heading</h2>
+
+
+<p>I'm the first paragraph.</p>
+
+<p>I'm the second paragraph.</p>
+
+
+<form>
+First name: <input type="text" name="firstname" /><br />
+Last name: <input type="text" name="lastname" />
+</form>
+
+
+
+</body>
+
+</html>
